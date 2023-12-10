@@ -2,9 +2,8 @@ import { utilService } from './util.service.js'
 import { storageService } from './async-storage.service.js'
 
 const BOOK_KEY = 'bookDB'
-// var gFilterBy = { txt: '', minSpeed: 0 }
+// var gFilterBy = { txt: '', price: 0 }
 _createBooks()
-console.log('im working')
 
 export const bookService = {
     query,
@@ -12,21 +11,22 @@ export const bookService = {
     remove,
     save,
     getEmptyBook,
+    getDefaultFilter,
+    
     getNextBookId,
-    // getFilterBy,
-    // setFilterBy
+    
 }
 
-function query() {
+function query(filterBy) {
     return storageService.query(BOOK_KEY)
         .then(books => {
-            // if (gFilterBy.txt) {
-            //     const regex = new RegExp(gFilterBy.txt, 'i')
-            //     books = books.filter(book => regex.test(book.vendor))
-            // }
-            // if (gFilterBy.minSpeed) {
-            //     books = books.filter(book => book.maxSpeed >= gFilterBy.minSpeed)
-            // }
+            if (filterBy.txt) {
+                const regex = new RegExp(filterBy.txt, 'i')
+                books = books.filter(book => regex.test(book.title))
+            }
+            if (filterBy.price) {
+                books = books.filter(book => book.listPrice.amount <= filterBy.price)
+            }
             return books
         })
 }
@@ -58,15 +58,10 @@ function getEmptyBook(title='', description='',thumbnail='',amount=0, currencyCo
     }
 
 
-// function getFilterBy() {
-//     return { ...gFilterBy }
-// }
+function getDefaultFilter() {
+    return { txt: '', price: '' }
+}
 
-// function setFilterBy(filterBy = {}) {
-//     if (filterBy.txt !== undefined) gFilterBy.txt = filterBy.txt
-//     if (filterBy.minSpeed !== undefined) gFilterBy.minSpeed = filterBy.minSpeed
-//     return gFilterBy
-// }
 
 function getNextBookId(bookId) {
     return storageService.query(BOOK_KEY)
@@ -81,9 +76,9 @@ function _createBooks() {
     let books = utilService.loadFromStorage(BOOK_KEY)
     if (!books || !books.length) {
         books = []
-        books.push(_createBook('the little prince','a journry in the stars','http://ca.org/books-photos/20.jpg',109,'EUR',false))
-        books.push(_createBook('the little frog','a journry in the swamp','http://ca.org/books-photos/10.jpg',78,'USD',true))
-        books.push(_createBook('the little punk','a journry in the hood','http://ca.org/books-photos/16.jpg',57,'ILS',false))
+        books.push(_createBook('the little prince','a journry in the stars','1',109,'EUR',false))
+        books.push(_createBook('the little frog','a journry in the swamp','2',78,'USD',true))
+        books.push(_createBook('the little punk','a journry in the hood','3',57,'ILS',false))
 
         utilService.saveToStorage(BOOK_KEY, books)
     }
