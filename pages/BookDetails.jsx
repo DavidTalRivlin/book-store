@@ -11,17 +11,33 @@ export function BookDetails({ bookId, onBack }) {
             .then(book => setBook(book))
     }, [])
 
-
     if (!book) return <div>Loading...</div>
     return (
         <section className="book-details">
-            <h1>Book title: {book.title}</h1>
+            <h2>{book.title}</h2>
+            <h3>{book.subtitle}</h3>
+            <h3>authors: {book.authors} </h3>
+            <img src={book.thumbnail} alt="" />
+            <h3>published year: {book.publishedDate}
+            {(new Date().getFullYear()-book.publishedDate) > 10 && ' Vintage'}
+            {(new Date().getFullYear()-book.publishedDate) < 2 && ' New'}
+            </h3>
             <h3>Book description: {book.description}</h3>
-            <img src={`../assets/img/${book.thumbnail}.jpg`} alt="" />
-            <h3>price: {book.listPrice.amount} {book.listPrice.currencyCode}</h3>
-            <h3> {(book.listPrice.isOnSale) ? 'On Sale Now!' : '' }</h3>
+            <h3>Pages: {book.pageCount}
+                {book.pageCount > 500 && ' Serious Reading'}
+                {book.pageCount > 200 && book.pageCount < 500 && ' Descent Reading'}
+                {book.pageCount < 100 && ' Light Reading'}
+            </h3>
+
+            <h3>categories: {book.categories}</h3>
+            <h3>language: {book.language}</h3>
+
+            <h3 className={book.listPrice.amount >150 ? 'red': book.listPrice.amount <20 ? 'green' : '' } >price: {book.listPrice.amount} {book.listPrice.currencyCode}</h3>
+            <h3> {(book.listPrice.isOnSale) ? 'On Sale Now!' : ''}</h3>
 
             <button onClick={onBack}>Back</button>
         </section>
     )
 }
+
+

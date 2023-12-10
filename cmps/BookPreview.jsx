@@ -3,7 +3,7 @@ export function BookPreview({ book }) {
         <article className="book-preview">
             <h2>Book title: {book.title}</h2>
             <h4>Book description: {book.description}</h4>
-            <img src={`../assets/img/${book.thumbnail}.jpg`} alt="" />
+            <img src={book.thumbnail} alt="" />
         </article>
     )
 }
