@@ -9,7 +9,7 @@ export function LongTxt({ txt, length=100 }) {
         <article>
             <span>{isHidden && shortenTxt}</span>
             <span>{!isHidden && txt}</span>
-            <button onClick={()=>{setIsHidden(!isHidden)}}>{isHidden ? 'Show more' : 'Show less'}</button>
+            <button type="button" onClick={()=>{setIsHidden(!isHidden)}}>{isHidden ? 'Show more' : 'Show less'}</button>
         </article>
     )
 
