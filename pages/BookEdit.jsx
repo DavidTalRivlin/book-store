@@ -1,5 +1,6 @@
 import { bookService } from '../services/book.service.js'
 import { LongTxt } from '../cmps/LongTxt.jsx'
+import { showSuccessMsg } from "../services/event-bus.service.js"
 
 const { useState, useEffect } = React
 const { useParams, useNavigate } = ReactRouterDOM
@@ -77,7 +78,10 @@ export function BookEdit() {
   function onSaveBook(ev) {
     ev.preventDefault()
     bookService.save(bookToEdit)
-      .then(() => navigate('/book'))
+      .then(() => {
+        showSuccessMsg(`Book successfully Saved!`)
+        navigate('/book')
+      })
       .catch(err => console.log('err:', err))
   }
 

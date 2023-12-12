@@ -1,5 +1,5 @@
 const Router = ReactRouterDOM.HashRouter
-const { Routes, Route, Navigate } = ReactRouterDOM
+const { Routes, Route} = ReactRouterDOM
 
 import { Home } from './pages/Home.jsx'
 import { About } from './pages/About.jsx'
@@ -7,6 +7,7 @@ import { BookIndex } from './pages/BookIndex.jsx'
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { BookDetails } from './pages/BookDetails.jsx'
 import { BookEdit } from './pages/BookEdit.jsx'
+import { UserMsg } from './cmps/UserMsg.jsx'
 
 const { useState } = React
 
@@ -30,7 +31,7 @@ export function App() {
                         <Route path="/book/edit" element={<BookEdit />} />
                     </Routes>
                 </main>
-
+                <UserMsg />
             </section>
         </Router >
     )

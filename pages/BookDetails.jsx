@@ -1,3 +1,4 @@
+import { AddReview } from "../cmps/AddReview.jsx"
 import { LongTxt } from "../cmps/LongTxt.jsx"
 import { bookService } from "../services/book.service.js"
 
@@ -12,7 +13,7 @@ export function BookDetails() {
 
     useEffect(() => {
         loadBook()
-    }, [params.bookId])
+    }, [params.bookId, book])
 
     function loadBook() {
         bookService.get(params.bookId)
@@ -26,6 +27,19 @@ export function BookDetails() {
     function onBack() {
         navigate('/book')
     }
+
+    function submitReview(ev) {
+        ev.preventDefault()
+        const newReview = {
+            fullname: ev.target.name.value,
+            rating: ev.target.rating.value,
+            readAt: ev.target.date.value
+        }
+        
+        bookService.addReview(book.id, newReview)
+    }
+
+
 
     if (!book){ return <div>Loading...</div>}
 
@@ -68,6 +82,8 @@ export function BookDetails() {
             <h3> {(book.listPrice.isOnSale) ? 'On Sale Now!' : ''}</h3>
 
             <button onClick={onBack}>Back</button>
+
+            <AddReview book={book} submitReview={submitReview}/>
         </section>
     )
 }
